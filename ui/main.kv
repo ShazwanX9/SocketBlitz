@@ -1,0 +1,171 @@
+<ConnectServerScreen>:
+    iswaiting: False
+    phone_num: ""
+    server_id: ""
+    server_port: ""
+    error_response: ""
+    md_bg_color: app.theme_cls.backgroundColor
+
+    MDFloatLayout:
+        MDRelativeLayout:
+            md_bg_color: [app.theme_cls.backgroundColor, "red"][root.error_response==""]
+            adaptive_height: root.error_response!=""
+            pos_hint: {"center_x": .5, "center_y": .9}
+            size_hint: [[1, None], [None, None]][root.error_response==""]
+            size: [[0, dp(64)], [0, 0]][root.error_response==""]
+            MDLabel:
+                adaptive_size: True
+                text: root.error_response
+                font_style: "Headline"
+                role: "small"
+                pos_hint: {"center_x": .5, "center_y": .5}
+                theme_text_color: "Custom"
+                text_color: "white"
+
+    MDBoxLayout:
+        orientation: 'vertical'
+        adaptive_size: True
+        padding: dp(16)
+        spacing: dp(32)
+        pos_hint: {"center_x": .5, "center_y": .5}
+
+        MDTextField:
+            mode: "outlined"
+            size_hint_x: None
+            width: "240dp"
+            pos_hint: {"center_x": .5, "center_y": .5}
+            text: root.phone_num
+            on_text: self.text = self.text[:15]; root.phone_num = self.text
+            input_filter: "int"
+            disabled: root.iswaiting
+
+            MDTextFieldLeadingIcon:
+                icon: "cellphone"
+
+            MDTextFieldHintText:
+                text: "Phone Number"
+
+            MDTextFieldMaxLengthText:
+                max_text_length: 15
+
+        MDTextField:
+            mode: "outlined"
+            size_hint_x: None
+            width: "240dp"
+            pos_hint: {"center_x": .5, "center_y": .5}
+            text: root.server_id
+            on_text: self.text = self.text[:15]; root.server_id = self.text
+            disabled: root.iswaiting
+
+            MDTextFieldLeadingIcon:
+                icon: "server"
+
+            MDTextFieldHintText:
+                text: "Server IP Address"
+
+            MDTextFieldHelperText:
+                text: "localhost / 127.0.0.1"
+                mode: "persistent"
+
+            MDTextFieldMaxLengthText:
+                max_text_length: 15
+
+        MDTextField:
+            mode: "outlined"
+            size_hint_x: None
+            width: "240dp"
+            pos_hint: {"center_x": .5, "center_y": .5}
+            text: root.server_port
+            on_text: self.text = self.text[:5]; root.server_port = self.text
+            input_filter: "int"
+            disabled: root.iswaiting
+
+            MDTextFieldLeadingIcon:
+                icon: "server-network"
+
+            MDTextFieldHintText:
+                text: "Server Port Number"
+
+            MDTextFieldHelperText:
+                text: "8000"
+                mode: "persistent"
+
+            MDTextFieldMaxLengthText:
+                max_text_length: 5
+
+        MDButton:
+            style: "elevated"
+            theme_width: "Custom"
+            size_hint_x: 1
+            pos_hint: {"center_x": .5, "center_y": .5}
+            disabled: root.iswaiting or (root.phone_num=="" or root.server_id=="" or root.server_port=="")
+            on_release: if not (root.phone_num=="" or root.server_id=="" or root.server_port==""): root.connect()
+
+            MDButtonText:
+                text: "Connect"
+                pos_hint: {"center_x": .5, "center_y": .5}
+
+<SelectFileTransferScreen@MDScreen>:
+
+<FileTransferScreen>:
+    savedir: ""
+    file_manager: None
+    # Save To
+    MDBoxLayout:
+        orientation: 'vertical'
+        padding: dp(16)
+        spacing: dp(16)
+        adaptive_height: True
+        pos_hint: {"center_x": .5, "center_y": .5}
+
+        MDTextField:
+            mode: "outlined"
+            size_hint_x: None
+            width: "240dp"
+            pos_hint: {"center_x": .5, "center_y": .5}
+            text: root.savedir
+            on_focus: if root.file_manager: root.file_manager.show_directory_manager(root.update_savedir)
+
+            MDTextFieldLeadingIcon:
+                icon: "download"
+
+            MDTextFieldHintText:
+                text: "Save Directory"
+
+        # Attach Item
+        MDButton:
+            style: "elevated"
+            theme_width: "Custom"
+            size_hint_x: 1
+            pos_hint: {"center_x": .5, "center_y": .5}
+            on_release: if root.file_manager: root.file_manager.show_single_file_manager(root.update_filepath)
+
+            MDButtonText:
+                text: "Upload File"
+                pos_hint: {"center_x": .5, "center_y": .5}
+
+        # Quit
+        MDButton:
+            style: "elevated"
+            theme_width: "Custom"
+            size_hint_x: 1
+            pos_hint: {"center_x": .5, "center_y": .5}
+            on_release: root.quit()
+
+            MDButtonText:
+                text: "Quit"
+                pos_hint: {"center_x": .5, "center_y": .5}
+
+<AppManager>:
+    file_manager: None
+
+    ConnectServerScreen:
+        name: "connect_server_screen"
+
+    # SelectFileTransferScreen:
+    #     name: "select_connection_screen"
+        # file_manager: file_manager
+
+    FileTransferScreen:
+        name: "file_transfer_screen"
+        file_manager: root.file_manager
