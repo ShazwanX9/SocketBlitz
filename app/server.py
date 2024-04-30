@@ -1,4 +1,3 @@
-import os
 import socket
 import threading
 import logging
@@ -65,26 +64,21 @@ class Server:
     def receive_file(self, client_socket, header_data: str, save=False) -> None:
         try:
             _, file_name, file_size = header_data.decode().split(self.DELIMITER)
-            # file_path = os.path.join("uploads", file_name)
             file_size = int(file_size)
 
-            # if save: os.makedirs(os.path.dirname(file_path), exist_ok=True)
             self.broadcast(header_data, client_socket)
 
-            # with open(file_path, "wb") as file:
             remaining_size = file_size
             while remaining_size > 0:
                 chunk = client_socket.recv(min(remaining_size, self.BUFFER_SIZE))
                 if not chunk:
                     break
-                # if save: file.write(chunk)
                 self.broadcast(chunk, client_socket)
                 remaining_size -= len(chunk)
             if remaining_size > 0:
                 self.logger.error("File transmission incomplete.")
             else:
                 self.logger.info(f"File transmission complete.")
-                # if save: self.stream_file(file_path=file_path, client_socket=client_socket)
 
         except Exception as e:
             self.logger.error(f"Error receiving file from client: {e}")
@@ -97,7 +91,6 @@ class Server:
                 except socket.timeout:
                     continue  # Timeout occurred, try again
 
-                # client_socket, addr = self._server_socket.accept()
                 self.logger.info(f'Connected to {addr}')
                 self._conns.append(client_socket)
                 client_thread = threading.Thread(
@@ -132,7 +125,6 @@ if __name__ == "__main__":
     hostname = socket.gethostname()
     host = socket.gethostbyname(hostname)
     port = 0
-    # port = 12345
     maxconn = 5
     server = Server(host, port, maxconn)
     server.start()
