@@ -1,0 +1,50 @@
+Specific: 
+    Gain proficiency in implementing video streaming 
+    using sockets in Python.
+Measurable: 
+    Successfully develop a basic video streaming application 
+    that streams video from a server to a client.
+Achievable: 
+    Acquire a good understanding of socket programming in Python 
+    through tutorials, documentation, and practice exercises. 
+    Break down the task into smaller, 
+    manageable steps such as setting up the server, 
+    establishing a connection, streaming frames, 
+    and displaying video on the client side.
+Relevant: 
+    Video streaming is a fundamental concept 
+    in network programming and has various 
+    real-world applications, 
+    such as security surveillance, 
+    video conferencing, 
+    and live video broadcasting. 
+    Understanding how to implement video streaming 
+    using sockets will provide valuable skills applicable 
+    to a wide range of projects and industries.
+Time-bound: 
+    Aim to complete the development of the 
+    basic video streaming application within 
+    a specified timeframe, such as two weeks. 
+    Set milestones for each stage of development, 
+    including research, coding, testing, and documentation, 
+    to ensure progress is made within the allotted time.
+
+Steps:
+    1. Start with Enstablish concurrent socket connection
+    2. Transfer the frames data and broadcast to all client
+    3. On receiving end, display the frames properly
+    4. Integrate with past projects
+    5. Prepare a GUI for it
+
+Benefits:
+    1. Learn OpenCV
+    2. Improve Kivy
+    3. Improve Socket
+    4. Improve Threading
+    5. Improve Logging
+
+Use Case:
+    1. CCTV: Server will stream the Case
+    2. Receiver: Can connect to host and view the stream 
+
+Achieve on: 7th May 2024

@@ -1,0 +1,83 @@
+<KivyVideoPlugin>:
+    canvas.before:
+        PushMatrix
+        Rotate:
+            angle: 90
+            origin: self.center
+    canvas.after:
+        PopMatrix
+
+<VideoHostingScreen>:
+    camera_layout: camera_layout
+    hostname: ""
+    portnum: 0
+
+    MDBoxLayout:
+        padding: dp(16)
+        spacing: dp(16)
+        orientation: 'vertical'
+
+        MDBoxLayout:
+            orientation: "vertical"
+            adaptive_height: True
+            MDLabel:
+                adaptive_size: True
+                size_hint_x: 1
+                text: f"Hostname: {root.hostname}"
+                halign: "center"
+                theme_text_color: "Custom"
+                text_color: "white"
+            MDLabel:
+                adaptive_size: True
+                size_hint_x: 1
+                text: f"Port Number: {root.portnum}"
+                halign: "center"
+                theme_text_color: "Custom"
+                text_color: "white"
+
+        MDBoxLayout:
+            size_hint: None, None
+            size: 0, 0
+            id: camera_layout
+
+        Image:
+            id: image
+            source: ""
+
+        MDBoxLayout:
+            id: btn_layout
+            adaptive_size: True
+            pos_hint: {"center_x": .5, "center_y": .5}
+        MDButton:
+            style: "elevated"
+            theme_width: "Custom"
+            size_hint_x: 1
+            pos_hint: {"center_x": .5, "center_y": .5}
+            on_release: root.disconnect()
+
+            MDButtonText:
+                text: "Disconnect"
+                pos_hint: {"center_x": .5, "center_y": .5}
+
+<ConnectServerScreen@MDScreen>:
+    MDBoxLayout:
+        adaptive_size: True
+        pos_hint: {"center_x": .5, "center_y": .5}
+
+        MDExtendedFabButton:
+            fab_state: "expand"
+            pos_hint: {"center_x": .5, "center_y": .5}
+            disabled: app.iswaiting
+            on_release: app.host_server()
+
+            MDExtendedFabButtonIcon:
+                icon: "server"
+
+            MDExtendedFabButtonText:
+                text: "Start Hosting"
+
+ScreenManager:
+    ConnectServerScreen:
+        name: "connect_server_screen"
+    VideoHostingScreen:
+        name: "video_hosting_screen"
